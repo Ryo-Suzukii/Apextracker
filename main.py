@@ -149,6 +149,9 @@ def Neta(text):
         "home":"https://nit-komaba.ed.jp/",
         "version":"v1.2(release 2021/03/31)",
         "黒木ほの香":"https://twitter.com/_kuroki_honoka",
+        "青木志貴":"https://twitter.com/eerieXeery",
+        "えなこ":"https://twitter.com/enako_cos",
+        "syani":"しゃにますやれ"*100,
         "playlist":"https://www.youtube.com/playlist?list=PLSlDAq60dYFASz84xcS2sXwjf34maoIGR"
     }
     
