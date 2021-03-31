@@ -152,6 +152,10 @@ def Neta(text):
         "青木志貴":"https://twitter.com/eerieXeery",
         "えなこ":"https://twitter.com/enako_cos",
         "syani":"しゃにますやれ"*100,
+        "uma":"馬娘やめろ"*10,
+        "uuma":"馬娘やっていいよ",
+        ":)":"なにわろてんねん",
+        ":(":"元気出して",
         "playlist":"https://www.youtube.com/playlist?list=PLSlDAq60dYFASz84xcS2sXwjf34maoIGR"
     }
     
