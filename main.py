@@ -147,7 +147,9 @@ def Neta(text):
         "fuck":"ごめんね by黒木ほの香",
         "ramen":"https://tabelog.com/tokyo/A1303/A130301/13069220/",
         "home":"https://nit-komaba.ed.jp/",
-        "version":"v1.1.9(release 2021/03/17)"
+        "version":"v1.2(release 2021/03/31)",
+        "黒木ほの香":"https://twitter.com/_kuroki_honoka",
+        "playlist":"https://www.youtube.com/playlist?list=PLSlDAq60dYFASz84xcS2sXwjf34maoIGR"
     }
     
     if what in neta_dict:
