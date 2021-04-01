@@ -149,6 +149,8 @@ def loop(text):
     text = text.split()
     what = text[1]
     wtf = what*100
+    if count(wtf) > 500:
+        wtf = wtf[:500]
     return wtf
  
 def Neta(text):
