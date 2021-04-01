@@ -81,7 +81,9 @@ def Track(text):
         "p":"psn",
         "o":"origin",
         "psn":"psn",
-        "origin":"origin"
+        "origin":"origin",
+        "x":"xbl",
+        "xbox":"xbl"
     }
     try:
         # プラットフォームのショートカット機能
@@ -96,7 +98,8 @@ def Track(text):
             "k":"kaijyuukun2001",
             "a":"amazonesu_iwata",
             "sh":"KNR_ShibuyaHal",
-            "e":"eerie0w0eery"
+            "e":"eerie0w0eery",
+            "m":"iMarshi FB"
         }
         if user in user_dict:
             user = user_dict[user]
