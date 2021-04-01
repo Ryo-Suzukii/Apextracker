@@ -64,6 +64,10 @@ def message_text(event):
     elif event.message.text[:1] == "?":
         res_result = Neta(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
+    elif event.message.text[:1] == "|":
+        res_result = loop(event.message.text)
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
+
     # それ以外(ただの会話とか)ならスルー
     else:
         pass
@@ -137,7 +141,13 @@ def Track(text):
     else:
         res_result = "そんなコマンドないんだよね"
     return res_result
-    
+
+def loop(text):
+    text = text.split()
+    what = text[1]
+    wtf = what*100
+    return wtf
+ 
 def Neta(text):
     text = text.split()
     what = text[1]
@@ -147,13 +157,10 @@ def Neta(text):
         "fuck":"ごめんね by黒木ほの香",
         "ramen":"https://tabelog.com/tokyo/A1303/A130301/13069220/",
         "home":"https://nit-komaba.ed.jp/",
-        "version":"v1.2(release 2021/03/31)",
+        "version":"v1.2.1(release 2021/04/01)",
         "黒木ほの香":"https://twitter.com/_kuroki_honoka",
         "青木志貴":"https://twitter.com/eerieXeery",
         "えなこ":"https://twitter.com/enako_cos",
-        "syani":"しゃにますやれ"*100,
-        "uma":"馬娘やめろ"*10,
-        "uuma":"馬娘やっていいよ",
         ":)":"なにわろてんねん",
         ":(":"元気出して",
         "playlist":"https://www.youtube.com/playlist?list=PLSlDAq60dYFASz84xcS2sXwjf34maoIGR"
