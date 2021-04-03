@@ -151,8 +151,8 @@ def loop(text):
     try:
         leng = int(text[2])
         wtf = what*leng
-    if len(wtf) > 500:
-        wtf = wtf[:500]
+        if len(wtf) > 500:
+            wtf = wtf[:500]
     except:
         wtf = "ばかは宿題やって寝ろ"
     
