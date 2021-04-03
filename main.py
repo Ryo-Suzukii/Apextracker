@@ -148,9 +148,14 @@ def Track(text):
 def loop(text):
     text = text.split()
     what = text[1]
-    wtf = what*100
+    try:
+        leng = int(text[2])
+        wtf = what*leng
     if len(wtf) > 500:
         wtf = wtf[:500]
+    except:
+        wtf = "ばかは宿題やって寝ろ"
+    
     return wtf
  
 def Neta(text):
