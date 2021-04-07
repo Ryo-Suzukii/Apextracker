@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import tweepy
 import requests
 from argparse import ArgumentParser
 
@@ -21,12 +22,18 @@ app = Flask(__name__)
 Tracker_api = os.getenv('Tracker_API',None)
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
-if channel_secret is None:
-    print('Specify LINE_CHANNEL_SECRET as environment variable.')
-    sys.exit(1)
-if channel_access_token is None:
-    print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
-    sys.exit(1)
+
+# TwitterのAPI
+Twitter_access_token = os.getenv("TWITTER_ACCESS_TOKEN", None)
+Twitter_access_secret = os.getenv("TWITTER_ACCESS_SECRET", None)
+Twitter_API_key = os.getenv("TWITTER_API_KEY", None)
+Twitter_API_secret = os.getenv("TWITTER_API_SECRET", None)
+
+# TwitterAPIの初期設定
+auth = tweepy.OAuthHandler(Twitter_API_key, Twitter_API_secret)
+auth.set_access_token(Twitter_access_token, Twitter_access_secret)
+
+api = tweepy.API(auth)
 
 
 url = "https://public-api.tracker.gg/v2/apex/standard/profile"
@@ -145,6 +152,8 @@ def Track(text):
         res_result = "そんなコマンドないんだよね"
     return res_result
 
+    Tweet(user,what,res_result)
+
 def loop(text):
     text = text.split()
     what = text[1]
@@ -181,6 +190,22 @@ def Neta(text):
     else:
         res_result = "そんなコマンドないってw"
     return res_result
+
+def Tweet(user,what,res_result):
+    t_dict = {
+        "kill":"キル",
+        "rank":"ランク",
+        "rankscore":"ランクスコア",
+        "id":"ID",
+        "level":"レベル"
+    }
+    if what in t_dict:
+        what = t_dict[what]
+
+    main = f"{user}さんの{what}数は{res_result}です."
+
+    api.update_status(main)
+    
 
 
 #変えるな
