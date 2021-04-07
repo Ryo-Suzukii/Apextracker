@@ -150,9 +150,10 @@ def Track(text):
         res_result = res["data"]["segments"][0]["stats"]["season8Kills"]["displayValue"]
     else:
         res_result = "そんなコマンドないんだよね"
-    return res_result
 
     Tweet(user,what,res_result)
+    return res_result
+
 
 def loop(text):
     text = text.split()
@@ -192,21 +193,22 @@ def Neta(text):
     return res_result
 
 def Tweet(user,what,res_result):
-    t_dict = {
-        "kill":"キル",
-        "rank":"ランク",
-        "rankscore":"ランクスコア",
-        "id":"ID",
-        "level":"レベル"
-    }
-    if what in t_dict:
-        what = t_dict[what]
+    try:
+        t_dict = {
+            "kill":"キル",
+            "rank":"ランク",
+            "rankscore":"ランクスコア",
+            "id":"ID",
+            "level":"レベル"
+        }
+        if what in t_dict:
+            what = t_dict[what]
 
-    main = f"{user}さんの{what}数は{res_result}です."
+        main = f"{user}さんの{what}数は{res_result}です."
 
-    api.update_status(main)
-    
-
+        api.update_status(main)
+    except:
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text="カスごみ消えろ"))
 
 #変えるな
 if __name__ == "__main__":
