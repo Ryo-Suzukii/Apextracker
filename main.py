@@ -177,7 +177,7 @@ def Neta(text):
         "fuck":"ごめんね by黒木ほの香",
         "ramen":"https://tabelog.com/tokyo/A1303/A130301/13069220/",
         "home":"https://nit-komaba.ed.jp/",
-        "version":"v1.2.1(release 2021/04/01)",
+        "version":"v2.0b(release 2021/04/07)",
         "黒木ほの香":"https://twitter.com/_kuroki_honoka",
         "青木志貴":"https://twitter.com/eerieXeery",
         "えなこ":"https://twitter.com/enako_cos",
@@ -193,22 +193,20 @@ def Neta(text):
     return res_result
 
 def Tweet(user,what,res_result):
-    try:
-        t_dict = {
-            "kill":"キル",
-            "rank":"ランク",
-            "rankscore":"ランクスコア",
-            "id":"ID",
-            "level":"レベル"
-        }
-        if what in t_dict:
-            what = t_dict[what]
+    t_dict = {
+        "kill":"キル",
+        "rank":"ランク",
+        "rankscore":"ランクスコア",
+        "id":"ID",
+        "level":"レベル"
+    }
+    if what in t_dict:
+        what = t_dict[what]
 
-        main = f"{user}さんの{what}数は{res_result}です."
+    main = f"{user}さんの{what}数は{res_result}です."
 
-        api.update_status(main)
-    except:
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text="カスごみ消えろ"))
+    api.update_status(main)
+
 
 #変えるな
 if __name__ == "__main__":
