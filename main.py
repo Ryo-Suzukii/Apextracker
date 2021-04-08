@@ -213,6 +213,7 @@ def Neta(text):
     return res_result
 
 def get_tweet(text):
+    tweet = ""
     text = text.split()
     userID = text[1]
     try:
@@ -220,6 +221,8 @@ def get_tweet(text):
     except:
         count = 1
 
+    if count > 10:
+        count = 10
     user_dict = {
             "h":"hayaa6211",
             "i":"ITia_AISIA",
@@ -238,20 +241,20 @@ def get_tweet(text):
 
     param = {
         "screen_name":userID,
-        "count":1,
+        "count":count,
         "include_entities" : True,
         "exclude_replies" : True,
         "include_rts" : False
     }
-    for i in range(count):
-        try:
-            req = sess.get(TL, params=param)
-            timeline = json.loads(req.text)
-            tweet = timeline[i-1]["text"]
-            tt = f"{userID}さんの最新ツイートです\n\n{tweet}"
-        except:
-            tt = f"{userID}は見つかりませんでした．"
-        return tt
+    try:
+        req = sess.get(TL, params=param)
+        timeline = json.loads(req.text)
+        for twee in timeline:
+            tweet += twee["text"] + "\n\n"
+        tt = f"{userID}さんの最新ツイート{count}件です\n\n{tweet}"
+    except:
+        tt = f"{userID}は見つかりませんでした．"
+    return tt
 
 def Tweet(user,what,res_result):
     t_dict = {
