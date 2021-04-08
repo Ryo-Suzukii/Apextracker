@@ -214,6 +214,7 @@ def Neta(text):
 
 def get_tweet(text):
     text = text.split()
+    userID = text[1]
 
     user_dict = {
             "h":"hayaa6211",
@@ -223,13 +224,13 @@ def get_tweet(text):
             "sh":"KNR_ShibuyaHal",
             "e":"eerie0w0eery",
             "m":"iMarshi FB",
-            "kh":"_kuroki_Honoka"
+            "kh":"_kuroki_Honoka",
         }
-
-    userID = "_kuroki_Honoka"
 
     if userID in user_dict:
         userID = user_dict[userID]
+    else:
+        userID = "_Kuroki_honoka"
 
     param = {
         "screen_name":userID,
@@ -245,7 +246,7 @@ def get_tweet(text):
         tweet = timeline[0]["text"]
         tt = f"{userID}さんの最新ツイートです\n\n{tweet}"
     except:
-        tt = "そんなIDの人が見つかりませんでした．"
+        tt = f"{userID}は見つかりませんでした．"
     return tt
 
 def Tweet(user,what,res_result):
