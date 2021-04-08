@@ -186,7 +186,7 @@ def Neta(text):
         "fuck":"ごめんね by黒木ほの香",
         "ramen":"https://tabelog.com/tokyo/A1303/A130301/13069220/",
         "home":"https://nit-komaba.ed.jp/",
-        "version":"v2.0b(release 2021/04/07)",
+        "version":"v2.0(release 2021/04/08)",
         "黒木ほの香":"https://twitter.com/_kuroki_honoka",
         "青木志貴":"https://twitter.com/eerieXeery",
         "えなこ":"https://twitter.com/enako_cos",
@@ -203,7 +203,7 @@ def Neta(text):
 
 def Tweet(user,what,res_result):
     t_dict = {
-        "kill":"キル",
+        "kill":"キル数",
         "rank":"ランク",
         "rankscore":"ランクスコア",
         "id":"ID",
@@ -212,7 +212,7 @@ def Tweet(user,what,res_result):
     if what in t_dict:
         what = t_dict[what]
 
-    main = f"{user}さんの{what}数は{res_result}です."
+    main = f"{user}さんの{what}は{res_result}です."
 
     api.update_status(main)
 
