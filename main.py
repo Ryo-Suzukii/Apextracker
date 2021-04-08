@@ -69,7 +69,7 @@ def message_text(event):
     if event.message.text[:1] == "!":
         res_result = Track(event.message.text,tweet_flag)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
-    elif event.message.text[:1] == "！":
+    elif event.message.text[:1] == ".":
         tweet_flag = True
         res_result = Track(event.messsage.text,tweet_flag)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
