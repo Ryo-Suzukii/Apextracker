@@ -66,7 +66,7 @@ def callback():
 def message_text(event):
     tweet_flag = False
     # コマンド開始位置を確認
-    if event.message.text[:1] == "!":
+    if event.message.text[:1] == ".":
         res_result = Track(event.message.text,tweet_flag)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
     elif event.message.text[:1] == ".":
