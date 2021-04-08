@@ -213,6 +213,8 @@ def Neta(text):
     return res_result
 
 def get_tweet(text):
+    text = text.split()
+
     user_dict = {
             "h":"hayaa6211",
             "i":"ITia_AISIA",
@@ -224,7 +226,7 @@ def get_tweet(text):
             "kh":"_kuroki_honoka"
         }
 
-    userID = text
+    userID = text[1]
 
     if userID in user_dict:
         userID = user_dict[userID]
