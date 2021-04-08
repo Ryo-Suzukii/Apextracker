@@ -226,7 +226,7 @@ def get_tweet(text):
             "kh":"_kuroki_honoka"
         }
 
-    userID = text[1]
+    userID = "_kuroki_honoka"
 
     if userID in user_dict:
         userID = user_dict[userID]
@@ -238,6 +238,7 @@ def get_tweet(text):
         "exclude_replies" : True,
         "include_rts" : False
     }
+
     try:
         req = sess.get(TL, params=param)
         timeline = json.loads(req.text)
