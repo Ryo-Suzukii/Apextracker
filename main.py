@@ -33,7 +33,7 @@ Twitter_API_secret = os.getenv("TWITTER_API_SECRET", None)
 AT = os.getenv("AT")
 AS = os.getenv("AS")
 CS = os.getenv("CS")
-CK = os.getenv("CT")
+CK = os.getenv("CK")
 
 # TwitterAPIの初期設定
 auth = tweepy.OAuthHandler(Twitter_API_key, Twitter_API_secret)
