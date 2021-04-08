@@ -60,18 +60,19 @@ def callback():
 
     return 'OK'
 
+tweet_flag = False
 
 #メッセージ受け取ったとき
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
-    tweet_flag = False
+    global tweet_flag
     # コマンド開始位置を確認
-    if event.message.text[:1] == ".":
-        res_result = Track(event.message.text,tweet_flag)
+    if event.message.text[:1] == "!":
+        res_result = Track(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
     elif event.message.text[:1] == ".":
         tweet_flag = True
-        res_result = Track(event.messsage.text,tweet_flag)
+        res_result = Track(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
     elif event.message.text[:1] == "?":
         res_result = Neta(event.message.text)
@@ -86,7 +87,8 @@ def message_text(event):
         pass
 
 # trackする
-def Track(text,tweet_flag):
+def Track(text):
+    global tweet_flag
     # 受信したテキストを空白でリスト化
     text = text.split()
 
@@ -184,7 +186,7 @@ def Neta(text):
         "fuck":"ごめんね by黒木ほの香",
         "ramen":"https://tabelog.com/tokyo/A1303/A130301/13069220/",
         "home":"https://nit-komaba.ed.jp/",
-        "version":"v2.1b(release 2021/04/08)",
+        "version":"v2.0b(release 2021/04/07)",
         "黒木ほの香":"https://twitter.com/_kuroki_honoka",
         "青木志貴":"https://twitter.com/eerieXeery",
         "えなこ":"https://twitter.com/enako_cos",
