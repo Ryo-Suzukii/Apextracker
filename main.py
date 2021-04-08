@@ -217,7 +217,7 @@ def get_tweet(text):
     text = text.split()
     userID = text[1]
     try:
-        count = text[2]
+        count = int(text[2])
     except:
         count = 1
 
