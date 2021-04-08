@@ -30,11 +30,15 @@ Twitter_access_token = os.getenv("TWITTER_ACCESS_TOKEN", None)
 Twitter_access_secret = os.getenv("TWITTER_ACCESS_SECRET", None)
 Twitter_API_key = os.getenv("TWITTER_API_KEY", None)
 Twitter_API_secret = os.getenv("TWITTER_API_SECRET", None)
+AT = os.getenv("AT")
+AS = os.getenv("AS")
+CS = os.getenv("CS")
+CK = os.getenv("CT")
 
 # TwitterAPIの初期設定
 auth = tweepy.OAuthHandler(Twitter_API_key, Twitter_API_secret)
 auth.set_access_token(Twitter_access_token, Twitter_access_secret)
-sess = OAuth1Session(Twitter_API_key,Twitter_API_secret,Twitter_access_token,Twitter_access_secret)
+sess = OAuth1Session(CK,CS,AT,AS)
 
 TL = "https://api.twitter.com/1.1/statuses/user_timeline.json"
 
