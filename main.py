@@ -230,7 +230,7 @@ def get_tweet(text):
     if userID in user_dict:
         userID = user_dict[userID]
     else:
-        userID = "_Kuroki_honoka"
+        pass
 
     param = {
         "screen_name":userID,
