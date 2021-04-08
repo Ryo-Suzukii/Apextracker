@@ -3,7 +3,9 @@ import sys
 import json
 import tweepy
 import requests
+from urllib import request
 from argparse import ArgumentParser
+from requests_oauthlib import OAuth1Session
 
 from flask import Flask, request, abort
 from linebot import (
@@ -32,6 +34,9 @@ Twitter_API_secret = os.getenv("TWITTER_API_SECRET", None)
 # TwitterAPIの初期設定
 auth = tweepy.OAuthHandler(Twitter_API_key, Twitter_API_secret)
 auth.set_access_token(Twitter_access_token, Twitter_access_secret)
+sess = OAuth1Session(Twitter_API_key,Twitter_API_secret,Twitter_access_token,Twitter_access_secret)
+
+TL = "https://api.twitter.com/1.1/statuses/user_timeline.json"
 
 api = tweepy.API(auth)
 
@@ -68,11 +73,11 @@ def message_text(event):
     global tweet_flag
     # コマンド開始位置を確認
     if event.message.text[:1] == "!":
-        res_result = track(event.message.text)
+        res_result = Track(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
     elif event.message.text[:1] == ".":
         tweet_flag = True
-        res_result = track(event.message.text)
+        res_result = Track(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
     elif event.message.text[:1] == "?":
         res_result = Neta(event.message.text)
@@ -80,13 +85,17 @@ def message_text(event):
     elif event.message.text[:1] == "|":
         res_result = loop(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
+    elif event.message.text[:1] == "/":
+        res_result = get_tweet(event.message.text)
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
     
+
     # それ以外(ただの会話とか)ならスルー
     else:
         pass
 
 # trackする
-def track(text):
+def Track(text):
     global tweet_flag
     # 受信したテキストを空白でリスト化
     text = text.split()
@@ -128,33 +137,39 @@ def track(text):
     #jsonで検索結果まとめる
     res = requests.get(user_url, headers=head).json()
 
-    what_dict = {
-        "rank":res["data"]["segments"][0]["stats"]["rankScore"]["metadata"]["rankName"],
-        "what":res["data"]["segments"][0]["stats"]["rankScore"]["displayValue"],
-        "id":res["data"]["platformInfo"]["platformUserId"],
-        "level":res["data"]["segments"][0]["stats"]["level"]["displayValue"],
-        "kill":res["data"]["segments"][0]["stats"]["kills"]["displayValue"],
-        "s5w":res["data"]["segments"][0]["stats"]["season5Wins"]["displayValue"],
-        "s5k":res["data"]["segments"][0]["stats"]["season5Kills"]["displayValue"],
-        "s6w":res["data"]["segments"][0]["stats"]["season6Wins"]["displayValue"],
-        "s6k":res["data"]["segments"][0]["stats"]["season6Kills"]["displayValue"],
-        "s7w":res["data"]["segments"][0]["stats"]["season7Wins"]["displayValue"],
-        "s7k":res["data"]["segments"][0]["stats"]["season7Kills"]["displayValue"],
-        "s8w":res["data"]["segments"][0]["stats"]["season8Wins"]["displayValue"],
-        "s8k":res["data"]["segments"][0]["stats"]["season8Kills"]["displayValue"],
-        "s9w":res["data"]["segments"][0]["stats"]["season9Wins"]["displayValue"],
-        "s9k":res["data"]["segments"][0]["stats"]["season9Kills"]["displayValue"]
-    }
-    
-    if what in what_dict:
-        res_result = what_dict[what]
+    # コマンドごとにdictから検索
+    if what == "rank":
+        res_result = res["data"]["segments"][0]["stats"]["rankScore"]["metadata"]["rankName"]
+    elif what == "rankscore":
+        res_result = res["data"]["segments"][0]["stats"]["rankScore"]["displayValue"]
+    elif what == "id":
+        res_result = res["data"]["platformInfo"]["platformUserId"]
+    elif what == "level":
+        res_result = res["data"]["segments"][0]["stats"]["level"]["displayValue"]
+    elif what == "kill":
+        res_result = res["data"]["segments"][0]["stats"]["kills"]["displayValue"]
+    elif what == "s5w":
+        res_result = res["data"]["segments"][0]["stats"]["season5Wins"]["displayValue"]
+    elif what == "s5k":
+        res_result = res["data"]["segments"][0]["stats"]["season5Kills"]["displayValue"]
+    elif what == "s6w":
+        res_result = res["data"]["segments"][0]["stats"]["season6Wins"]["displayValue"]
+    elif what == "s6k":
+        res_result = res["data"]["segments"][0]["stats"]["season6Kills"]["displayValue"]
+    elif what == "s7w":
+        res_result = res["data"]["segments"][0]["stats"]["season7Wins"]["displayValue"]
+    elif what == "s7k":
+        res_result = res["data"]["segments"][0]["stats"]["season7Kills"]["displayValue"]
+    elif what == "s8w":
+        res_result = res["data"]["segments"][0]["stats"]["season8Wins"]["displayValue"]
+    elif what == "s8k":
+        res_result = res["data"]["segments"][0]["stats"]["season8Kills"]["displayValue"]
     else:
-        return "そんなコマンドないんだよね"
+        res_result = "そんなコマンドないんだよね"
 
     if tweet_flag == True:
-        tweet(user,what,res_result)
+        Tweet(user,what,res_result)
     return res_result
-
 
 def loop(text):
     text = text.split()
@@ -178,7 +193,7 @@ def Neta(text):
         "fuck":"ごめんね by黒木ほの香",
         "ramen":"https://tabelog.com/tokyo/A1303/A130301/13069220/",
         "home":"https://nit-komaba.ed.jp/",
-        "version":"v2.0(release 2021/04/08)",
+        "v":"v2.1b(release 2021/04/08)",
         "黒木ほの香":"https://twitter.com/_kuroki_honoka",
         "青木志貴":"https://twitter.com/eerieXeery",
         "えなこ":"https://twitter.com/enako_cos",
@@ -193,7 +208,40 @@ def Neta(text):
         res_result = "そんなコマンドないってw"
     return res_result
 
-def tweet(user,what,res_result):
+def get_tweet(text):
+    user_dict = {
+            "h":"hayaa6211",
+            "i":"ITia_AISIA",
+            "k":"kaijyuukun2001",
+            "a":"amazonesu_iwata",
+            "sh":"KNR_ShibuyaHal",
+            "e":"eerie0w0eery",
+            "m":"iMarshi FB",
+            "kh":"_kuroki_honoka"
+        }
+
+    userID = text
+
+    if userID in user_dict:
+        userID = user_dict[userID]
+
+    param = {
+        "screen_name":userID,
+        "count":1,
+        "include_entities" : True,
+        "exclude_replies" : True,
+        "include_rts" : False
+    }
+    try:
+        req = sess.get(TL, params=param)
+        timeline = json.loads(req.text)
+        tweet = timeline[0]["text"]
+        tt = f"{userID}さんの最新ツイートです\n\n{tweet}"
+    except:
+        tt = "そんなIDの人が見つかりませんでした．"
+    return tt
+
+def Tweet(user,what,res_result):
     t_dict = {
         "kill":"キル数",
         "rank":"ランク",
