@@ -223,10 +223,10 @@ def get_tweet(text):
             "sh":"KNR_ShibuyaHal",
             "e":"eerie0w0eery",
             "m":"iMarshi FB",
-            "kh":"_kuroki_honoka"
+            "kh":"_kuroki_Honoka"
         }
 
-    userID = "_kuroki_honoka"
+    userID = "_kuroki_Honoka"
 
     if userID in user_dict:
         userID = user_dict[userID]
