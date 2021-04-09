@@ -223,6 +223,7 @@ def get_tweet(text):
 
     if count > 10:
         count = 10
+        
     user_dict = {
             "h":"hayaa6211",
             "i":"ITia_AISIA",
@@ -250,8 +251,8 @@ def get_tweet(text):
         req = sess.get(TL, params=param)
         timeline = json.loads(req.text)
         for twee in timeline:
-            tweet += twee["text"] + "\n" + "-----" + "\n"
-        tt = f"{userID}さんの最新ツイート{count}件です\n-----\n{tweet}"
+            tweet += twee["text"] + "\n" + "------------------" + "\n"
+        tt = f"{userID}さんの最新ツイート{count}件です\n------------------\n{tweet}"
     except:
         tt = f"{userID}は見つかりませんでした．"
     return tt
