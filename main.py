@@ -251,9 +251,8 @@ def get_tweet(text):
         req = sess.get(TL, params=param)
         timeline = json.loads(req.text)
         for twee in timeline:
-            tweet += twee[next(reversed(timeline), None)] + "\n" + "-------------------------" + "\n"
-
-        tt = f"{userID}さんの最新ツイート{count}件です\n---------------------------\n{tweet}"
+            tweet += twee["text"] + "\n" + "------------------" + "\n"
+        tt = f"{userID}さんの最新ツイート{count}件です\n------------------\n{tweet}"
     except:
         tt = f"{userID}は見つかりませんでした．"
     return tt
