@@ -253,7 +253,7 @@ def get_tweet(text):
 
         textlist = list()
         for twee in timeline:
-            twe += twee["text"] + 
+            twe += twee["text"]
             textlist.append(twe)
         textlist.reverse()
         for i in textlist:
