@@ -253,15 +253,13 @@ def get_tweet(text):
 
         textlist = list()
         for twee in timeline:
-            twe += twee["text"] + "\n\n" + "----------------------------"
+            twe += twee["text"] + 
             textlist.append(twe)
         textlist.reverse()
-        for t in textlist:
-            tt += f"{textlist}\n"
+        for i in textlist:
+            tweet += i + "\n" + "----------------------------" + "\n"
 
         tt = f"{userID}さんの最新ツイート{count}件です\n------------------------\n{tweet}"
-    except:
-        tt = f"{userID}は見つかりませんでした．"
     return tt
 
 def Tweet(user,what,res_result):
