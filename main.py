@@ -197,7 +197,7 @@ def Neta(text):
         "fuck":"ごめんね by黒木ほの香",
         "ramen":"https://tabelog.com/tokyo/A1303/A130301/13069220/",
         "home":"https://nit-komaba.ed.jp/",
-        "v":"v2.1(release 2021/04/09)",
+        "v":"v2.2(release 2021/05/06)",
         "黒木ほの香":"https://twitter.com/_kuroki_honoka",
         "青木志貴":"https://twitter.com/eerieXeery",
         "えなこ":"https://twitter.com/enako_cos",
@@ -220,6 +220,14 @@ def get_tweet(text):
         count = int(text[2])
     except:
         count = 1
+    try:
+        rt = text[3]
+    except:
+        rt = False
+    try:
+        rep = text[4]
+    except:
+        rep = True
 
     if count > 10:
         count = 10
@@ -244,15 +252,19 @@ def get_tweet(text):
         "screen_name":userID,
         "count":count,
         "include_entities" : True,
-        "exclude_replies" : True,
-        "include_rts" : True
+        "exclude_replies" : rep,
+        "include_rts" : rt
     }
     try:
         req = sess.get(TL, params=param)
         timeline = json.loads(req.text)
+        t = "-"*20
+        twlis = []
+        tt = f"{userID}さんの最新ツイート{count}件です\n{t}"
         for twee in timeline:
-            tweet += twee["text"] + "\n" + "------------------" + "\n"
-        tt = f"{userID}さんの最新ツイート{count}件です\n------------------\n{tweet}"
+            twlis.append(twee["text"])
+        for i in twlis:
+            tt += f"\n{i}\n{t}"
     except:
         tt = f"{userID}は見つかりませんでした．"
     return tt
