@@ -257,11 +257,9 @@ def get_tweet(text):
         twlis = []
         tt = f"{userID}さんの最新ツイート{count}件です\n{t}"
         for twee in timeline:
-            twlis.append(twee["text"])
-        for i in range(1,len(twlis)+1):
-            tt += f"\n{twlis[len(twlis)-i]}"
+            tt +="\n" + twee["text"] + "\n" + t
     except Exception as e:
-        tt = f"{e}"
+        tt = f"{userID}は見つかりませんでした．"
     return tt
 
 def Tweet(user,what,res_result):
