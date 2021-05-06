@@ -216,17 +216,17 @@ def get_tweet(text):
     tweet = ""
     text = text.split()
     userID = text[1]
-    rt = False
+    rt = True
 
     try: 
         count = int(text[2])
-        if text[3] != null:
-            rt = True
+        if type(text[3]) == int or str:
+            rt = False
     except IndexError:
         count = 1
     except ValueError:
         count = 1
-        
+
     if count > 10:
         count = 10
         
