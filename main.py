@@ -216,6 +216,7 @@ def get_tweet(text):
     tweet = ""
     text = text.split()
     userID = text[1]
+    rt = False
     try:
         count = int(text[2])
     except IndexError:
