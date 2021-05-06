@@ -197,7 +197,7 @@ def Neta(text):
         "fuck":"ごめんね by黒木ほの香",
         "ramen":"https://tabelog.com/tokyo/A1303/A130301/13069220/",
         "home":"https://nit-komaba.ed.jp/",
-        "v":"v2.2(release 2021/05/06)",
+        "v":"v2.1(release 2021/04/09)",
         "黒木ほの香":"https://twitter.com/_kuroki_honoka",
         "青木志貴":"https://twitter.com/eerieXeery",
         "えなこ":"https://twitter.com/enako_cos",
@@ -216,15 +216,9 @@ def get_tweet(text):
     tweet = ""
     text = text.split()
     userID = text[1]
-    rt = True
-
-    try: 
+    try:
         count = int(text[2])
-        if type(text[3]) == int or str:
-            rt = False
-    except IndexError:
-        count = 1
-    except ValueError:
+    except:
         count = 1
 
     if count > 10:
@@ -251,17 +245,16 @@ def get_tweet(text):
         "count":count,
         "include_entities" : True,
         "exclude_replies" : True,
-        "include_rts" : rt
+        "include_rts" : True
     }
     try:
         req = sess.get(TL, params=param)
         timeline = json.loads(req.text)
         t = "-"*20
-        twlis = []
-        tt = f"{userID}さんの最新ツイート{count}件です\n{t}"
         for twee in timeline:
-            tt +="\n" + twee["text"] + "\n" + t
-    except Exception as e:
+            tweet += twee["text"] + "\n" + t + "\n"
+        tt = f"{userID}さんの最新ツイート{count}件です\n{t}\n{tweet}"
+    except:
         tt = f"{userID}は見つかりませんでした．"
     return tt
 
@@ -283,5 +276,7 @@ def Tweet(user,what,res_result):
 
 #変えるな
 if __name__ == "__main__":
+    port = int(os.getenv("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
     port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
