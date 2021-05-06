@@ -258,10 +258,10 @@ def get_tweet(text):
         tt = f"{userID}さんの最新ツイート{count}件です\n{t}"
         for twee in timeline:
             twlis.append(twee["text"])
-        for i in range(len(twlis)):
-            tt += f"\n{i}\n{twlis[(count-1)-i]}"
+        for i in range(1,len(twlis)+1):
+            tt += f"\n{twlis[len(twlis)-i]}"
     except Exception as e:
-        tt = "{e}"
+        tt = f"{e}"
     return tt
 
 def Tweet(user,what,res_result):
