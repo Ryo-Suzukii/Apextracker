@@ -259,9 +259,9 @@ def get_tweet(text):
         for twee in timeline:
             twlis.append(twee["text"])
         for i in range(len(twlis)):
-            tt += f"\n{i}\n{twlis[count-i]}"
-    except:
-        tt = f"{userID}は見つかりませんでした．"
+            tt += f"\n{i}\n{twlis[(count-1)-i]}"
+    except Exception as e:
+        tt = "{e}"
     return tt
 
 def Tweet(user,what,res_result):
