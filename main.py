@@ -218,17 +218,11 @@ def get_tweet(text):
     userID = text[1]
     try:
         count = int(text[2])
-    except:
+    except IndexError:
         count = 1
-    try:
-        rt = text[3]
-    except:
-        rt = False
-    try:
-        rep = text[4]
-    except:
-        rep = True
-
+    except ValueError:
+        count = 1
+        rt = True
     if count > 10:
         count = 10
         
@@ -252,7 +246,7 @@ def get_tweet(text):
         "screen_name":userID,
         "count":count,
         "include_entities" : True,
-        "exclude_replies" : rep,
+        "exclude_replies" : True,
         "include_rts" : rt
     }
     try:
