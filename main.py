@@ -93,7 +93,7 @@ def message_text(event):
     elif event.message.text[:1] == "/":
         res_result = get_tweet(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
-    elif event.message.text[:1] == "ran":
+    elif event.message.text[:1] == "r":
         res_result = ran(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
     
