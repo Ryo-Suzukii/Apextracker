@@ -1,5 +1,6 @@
 import os
 import sys
+from random import randint
 import json
 import tweepy
 import requests
@@ -91,6 +92,9 @@ def message_text(event):
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
     elif event.message.text[:1] == "/":
         res_result = get_tweet(event.message.text)
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
+    elif event.message.text[:1] == "ran":
+        res_result = ran(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
     
 
@@ -197,7 +201,7 @@ def Neta(text):
         "fuck":"ごめんね by黒木ほの香",
         "ramen":"https://tabelog.com/tokyo/A1303/A130301/13069220/",
         "home":"https://nit-komaba.ed.jp/",
-        "v":"v2.1(release 2021/04/09)",
+        "v":"v2.1.1(release 2021/05/20)",
         "黒木ほの香":"https://twitter.com/_kuroki_honoka",
         "青木志貴":"https://twitter.com/eerieXeery",
         "えなこ":"https://twitter.com/enako_cos",
@@ -273,6 +277,17 @@ def Tweet(user,what,res_result):
 
     api.update_status(main)
 
+def ran(text):
+    try:
+        text = text.split()
+    except:
+        ans = "引数を指定しやがれください"
+    try:
+        count = int(text[1])
+        ans = randint(1,count)
+    except:
+        ans = "数字を指定しやがれください"
+    return ans
 
 #変えるな
 if __name__ == "__main__":
