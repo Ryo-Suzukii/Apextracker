@@ -280,11 +280,17 @@ def Tweet(user,what,res_result):
 def ran(text):
     try:
         text = text.split()
+        try:
+            n = int(text[1])
+            m = int(text[2])
+        except:
+            n = 1
+            m = 10
     except:
         ans = "引数を指定しやがれください"
     try:
         count = int(text[1])
-        ans = randint(1,count)
+        ans = randint(n,m)
     except:
         ans = "数字を指定しやがれください"
     return ans
