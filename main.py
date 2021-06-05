@@ -282,10 +282,13 @@ def ran(text):
         text = text.split()
         try:
             n = int(text[1])
+        except:
+            n = 1
+        try:
             m = int(text[2])
         except:
             n = 1
-            m = 10
+            m = int(text[1])
     except:
         ans = "引数を指定しやがれください"
     try:
