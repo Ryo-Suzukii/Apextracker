@@ -80,10 +80,6 @@ def message_text(event):
     if event.message.text[:1] == "!":
         res_result = Track(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
-    elif event.message.text[:1] == ".":
-        tweet_flag = True
-        res_result = Track(event.message.text)
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
     elif event.message.text[:1] == "?":
         res_result = Neta(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
@@ -130,7 +126,8 @@ def Track(text):
             "a":"amazonesu_iwata",
             "sh":"KNR_ShibuyaHal",
             "e":"eerie0w0eery",
-            "m":"iMarshi FB"
+            "m":"iMarshi FB",
+            "ku":"KurokiHonokaSuki"
         }
         if user in user_dict:
             user = user_dict[user]
