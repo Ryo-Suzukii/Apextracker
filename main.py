@@ -1,5 +1,6 @@
 import os
 import sys
+from googletrans import Translator
 from random import randint
 import json
 import tweepy
@@ -91,6 +92,9 @@ def message_text(event):
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
     elif event.message.text[:1] == "r":
         res_result = ran(event.message.text)
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
+    elif event.message.text[:1] == "<":
+        res_result = trance(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
     
 
@@ -259,21 +263,6 @@ def get_tweet(text):
         tt = f"{userID}は見つかりませんでした．"
     return tt
 
-def Tweet(user,what,res_result):
-    t_dict = {
-        "kill":"キル数",
-        "rank":"ランク",
-        "rankscore":"ランクスコア",
-        "id":"ID",
-        "level":"レベル"
-    }
-    if what in t_dict:
-        what = t_dict[what]
-
-    main = f"{user}さんの{what}は{res_result}です."
-
-    api.update_status(main)
-
 def ran(text):
     try:
         text = text.split()
@@ -294,6 +283,12 @@ def ran(text):
     except:
         ans = "数字を指定しやがれください"
     return ans
+
+def trance(text):
+    text = text[2:]
+    trans = Translator.translate(text,dest="ja")
+    return trans
+
 
 #変えるな
 if __name__ == "__main__":
