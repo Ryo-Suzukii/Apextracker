@@ -93,12 +93,6 @@ def message_text(event):
     elif event.message.text[:1] == "r":
         res_result = ran(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
-    elif event.message.text[:1] == "<":
-        res_result = trance_ja_en(event.message.text)
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
-    elif event.messaga.text[:1] == ">":
-        res_result = trance_en_ja(event.message.text)
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
 
 
     # それ以外(ただの会話とか)ならスルー
@@ -256,7 +250,7 @@ def get_tweet(text):
         req = sess.get(TL, params=param)
         timeline = json.loads(req.text)
         t = "-"*20
-        for twee in timeline:
+        for twee in reversed(timeline):
             tweet += twee["text"] + "\n" + t + "\n"
         tt = f"{userID}さんの最新ツイート{count}件です\n{t}\n{tweet}"
     except:
@@ -283,18 +277,6 @@ def ran(text):
     except:
         ans = "数字を指定しやがれください"
     return ans
-
-def trance_ja_en(text):
-    text = text[2:]
-    translator = Translator()
-    trans = translator.translate(text,src="ja",dest="en")
-    return trans.text
-
-def trans_en_ja(text):
-    text = text[2:]
-    translator = Translator()
-    trans = translator.translate(text,src="ja",dest="en")
-    return trans.text
 
 
 #変えるな
