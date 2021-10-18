@@ -94,9 +94,12 @@ def message_text(event):
         res_result = ran(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
     elif event.message.text[:1] == "<":
-        res_result = trance(event.message.text)
+        res_result = trance_ja_en(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
-    
+    elif event.messaga.text[:1] == ">":
+        res_result = trance_en_ja(event.message.text)
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
+
 
     # それ以外(ただの会話とか)ならスルー
     else:
@@ -175,9 +178,6 @@ def Track(text):
         res_result = res["data"]["segments"][0]["stats"]["season8Kills"]["displayValue"]
     else:
         res_result = "そんなコマンドないんだよね"
-
-    if tweet_flag == True:
-        Tweet(user,what,res_result)
     return res_result
 
 def loop(text):
@@ -284,9 +284,16 @@ def ran(text):
         ans = "数字を指定しやがれください"
     return ans
 
-def trance(text):
+def trance_ja_en(text):
     text = text[2:]
-    trans = Translator.translate(text,dest="ja")
+    translator = Translator()
+    trans = translator.translate(text,src="ja",dest="en")
+    return trans.text
+
+def trans_en_ja(text):
+    text = text[2:]
+    translator = Translator()
+    trans = translator.translate(text,src="ja",dest="en")
     return trans.text
 
 
