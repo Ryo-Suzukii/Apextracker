@@ -287,7 +287,7 @@ def ran(text):
 def trance(text):
     text = text[2:]
     trans = Translator.translate(text,dest="ja")
-    return trans
+    return trans.text
 
 
 #変えるな
