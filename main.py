@@ -149,7 +149,6 @@ def Track(text):
         "rankscore":resa["rankScore"]["displayValue"],
         "id":res["data"]["platformInfo"]["platformUserId"],
         "level":resa["level"]["displayValue"],
-        "damage":resa["damage"]["displayValue"],
         "arena":resa["arenaRankScore"]["metadata"]["rankName"],
         "arenarank":resa["arenaRankScore"]["displayValue"],
         "kill":resa["kills"]["displayValue"]
