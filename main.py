@@ -152,6 +152,8 @@ def Track(text):
         res_result = res["data"]["platformInfo"]["platformUserId"]
     elif what == "level":
         res_result = res["data"]["segments"][0]["stats"]["level"]["displayValue"]
+    elif what == "damage":
+        res_result = res["data"]["segments"][0]["stats"]["damage"]["displayValue"]
     elif what == "kill":
         res_result = res["data"]["segments"][0]["stats"]["kills"]["displayValue"]
     elif what == "s5w":
@@ -196,7 +198,7 @@ def Neta(text):
         "fuck":"ごめんね by黒木ほの香",
         "ramen":"https://tabelog.com/tokyo/A1303/A130301/13069220/",
         "home":"https://nit-komaba.ed.jp/",
-        "v":"v2.1.1(release 2021/05/20)",
+        "v":"v2.2.0(release 2021/10/19)",
         "黒木ほの香":"https://twitter.com/_kuroki_honoka",
         "青木志貴":"https://twitter.com/eerieXeery",
         "えなこ":"https://twitter.com/enako_cos",
