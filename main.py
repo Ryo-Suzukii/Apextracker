@@ -172,6 +172,8 @@ def Track(text):
         res_result = res["data"]["segments"][0]["stats"]["season8Wins"]["displayValue"]
     elif what == "s8k":
         res_result = res["data"]["segments"][0]["stats"]["season8Kills"]["displayValue"]
+    elif what == "res":
+        res_result = res
     else:
         res_result = "そんなコマンドないんだよね"
     return res_result
