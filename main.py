@@ -142,43 +142,47 @@ def Track(text):
     user_url = f"{url}/{platform}/{user}"
     #jsonで検索結果まとめる
     res = requests.get(user_url, headers=head).json()
-
+    resa = res["data"]["segments"][0]["stats"]
     # コマンドごとにdictから検索
-    if what == "rank":
-        res_result = res["data"]["segments"][0]["stats"]["rankScore"]["metadata"]["rankName"]
-    elif what == "rankscore":
-        res_result = res["data"]["segments"][0]["stats"]["rankScore"]["displayValue"]
-    elif what == "id":
-        res_result = res["data"]["platformInfo"]["platformUserId"]
-    elif what == "level":
-        res_result = res["data"]["segments"][0]["stats"]["level"]["displayValue"]
-    elif what == "damage":
-        res_result = res["data"]["segments"][0]["stats"]["damage"]["displayValue"]
+
+    res_dict = {
+        "rank":resa["rankScore"]["metadata"]["rankName"],
+        "rankscore":resa["rankScore"]["displayValue"],
+        "id":res["data"]["platformInfo"]["platformUserId"],
+        "level":resa["level"]["displayValue"]
+    }
+
+    if what == "damage":
+        res_result = resa["damage"]["displayValue"]
     elif what == "arena":
-        res_result = res["data"]["segments"][0]["stats"]["arenaRankScore"]["metadata"]["rankName"]
+        res_result = resa["arenaRankScore"]["metadata"]["rankName"]
     elif what == "arenarank":
-        res_result = res["data"]["segments"][0]["stats"]["arenaRankScore"]["displayValue"]
+        res_result = resa["arenaRankScore"]["displayValue"]
     elif what == "kill":
-        res_result = res["data"]["segments"][0]["stats"]["kills"]["displayValue"]
+        res_result = resa["kills"]["displayValue"]
     elif what == "s5w":
-        res_result = res["data"]["segments"][0]["stats"]["season5Wins"]["displayValue"]
+        res_result = resa["season5Wins"]["displayValue"]
     elif what == "s5k":
-        res_result = res["data"]["segments"][0]["stats"]["season5Kills"]["displayValue"]
+        res_result = resa["season5Kills"]["displayValue"]
     elif what == "s6w":
-        res_result = res["data"]["segments"][0]["stats"]["season6Wins"]["displayValue"]
+        res_result = resa["season6Wins"]["displayValue"]
     elif what == "s6k":
-        res_result = res["data"]["segments"][0]["stats"]["season6Kills"]["displayValue"]
+        res_result = resa["season6Kills"]["displayValue"]
     elif what == "s7w":
-        res_result = res["data"]["segments"][0]["stats"]["season7Wins"]["displayValue"]
+        res_result = resa["season7Wins"]["displayValue"]
     elif what == "s7k":
-        res_result = res["data"]["segments"][0]["stats"]["season7Kills"]["displayValue"]
+        res_result = resa["season7Kills"]["displayValue"]
     elif what == "s8w":
-        res_result = res["data"]["segments"][0]["stats"]["season8Wins"]["displayValue"]
+        res_result = resa["season8Wins"]["displayValue"]
     elif what == "s8k":
-        res_result = res["data"]["segments"][0]["stats"]["season8Kills"]["displayValue"]
+        res_result = resa["season8Kills"]["displayValue"]
     
     else:
         res_result = "そんなコマンドないんだよね"
+
+    
+    if what in res_dict:
+        res_result = res_dict[what]
     return res_result
 
 def loop(text):
