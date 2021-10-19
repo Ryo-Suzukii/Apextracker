@@ -81,6 +81,9 @@ def message_text(event):
     if event.message.text[:1] == "!":
         res_result = Track(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
+    elif event.mesage.text[:1] == ":":
+        res_result = Chara(event.message.text)
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
     elif event.message.text[:1] == "?":
         res_result = Neta(event.message.text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
@@ -99,9 +102,91 @@ def message_text(event):
     else:
         pass
 
+def Chara(text):
+    text = text.split()
+
+    platform_dict = {
+        "p":"psn",
+        "o":"origin",
+        "psn":"psn",
+        "origin":"origin",
+        "x":"xbl",
+        "xbox":"xbl"
+    }
+    try:
+        # プラットフォームのショートカット機能
+        platform = text[1]
+        platform = platform_dict[platform]
+
+        # ユーザーショートカットの実装
+        user = text[2]
+        user_dict = {
+            "h":"hayaa6211",
+            "i":"ITia_AISIA",
+            "k":"kaijyuukun2001",
+            "a":"amazonesu_iwata",
+            "sh":"KNR_ShibuyaHal",
+            "e":"eerie0w0eery",
+            "m":"iMarshi FB",
+            "ku":"KurokiHonokaSuki"
+        }
+        if user in user_dict:
+            user = user_dict[user]
+
+        
+        chara = text[3]
+
+        chara_dict = {
+            "w":"Wraith",
+            "o":"Octane",
+            "p":"pathfinder",
+            "li":"Lifeline",
+            "ba":"Bangalore",
+            "g":"Givraltar",
+            "bl":"Bloodhound",
+            "lo":"Loba",
+            "r":"Revenant",
+            "s":"Seer",
+            "h":"Horizon"
+        }
+        if chara in chara_dict:
+            chara = chara_dict[chara]
+        
+        what = text[4]
+    except:
+        return "そのコマンドおかしいで(platform)"
+
+    # ユーザーごとのurlを作成して検索
+    user_url = f"{url}/{platform}/{user}"
+    #jsonで検索結果まとめる
+    res = requests.get(user_url, headers=head).json()
+    d = {}
+
+    for n,i in enumerate(res["data"]["segments"]):
+        d[i["metadata"]["name"]] = n
+    
+    c = d[chara]
+    res = res["data"]["segments"][c]["stats"]
+    res_dict = {
+        "rank":res["rankScore"]["metadata"]["rankName"],
+        "rankscore":res["rankScore"]["displayValue"],
+        "id":res["data"]["platformInfo"]["platformUserId"],
+        "level":res["level"]["displayValue"],
+        "damage":res["damage"]["displayValue"],
+        "arena":res["arenaRankScore"]["metadata"]["rankName"],
+        "arenarank":res["arenaRankScore"]["displayValue"],
+        "kill":res["kills"]["displayValue"]
+    }
+    
+    if what in res_dict:
+        res_result = res_dict[what]
+    else:
+        res_result = "そんなコマンドないけど？w"
+    return res_results
+
+
 # trackする
 def Track(text):
-    global tweet_flag
     # 受信したテキストを空白でリスト化
     text = text.split()
 
@@ -149,40 +234,17 @@ def Track(text):
         "rank":resa["rankScore"]["metadata"]["rankName"],
         "rankscore":resa["rankScore"]["displayValue"],
         "id":res["data"]["platformInfo"]["platformUserId"],
-        "level":resa["level"]["displayValue"]
+        "level":resa["level"]["displayValue"],
+        "damage":resa["damage"]["displayValue"],
+        "arena":resa["arenaRankScore"]["metadata"]["rankName"],
+        "arenarank":resa["arenaRankScore"]["displayValue"],
+        "kill":resa["kills"]["displayValue"]
     }
-
-    if what == "damage":
-        res_result = resa["damage"]["displayValue"]
-    elif what == "arena":
-        res_result = resa["arenaRankScore"]["metadata"]["rankName"]
-    elif what == "arenarank":
-        res_result = resa["arenaRankScore"]["displayValue"]
-    elif what == "kill":
-        res_result = resa["kills"]["displayValue"]
-    elif what == "s5w":
-        res_result = resa["season5Wins"]["displayValue"]
-    elif what == "s5k":
-        res_result = resa["season5Kills"]["displayValue"]
-    elif what == "s6w":
-        res_result = resa["season6Wins"]["displayValue"]
-    elif what == "s6k":
-        res_result = resa["season6Kills"]["displayValue"]
-    elif what == "s7w":
-        res_result = resa["season7Wins"]["displayValue"]
-    elif what == "s7k":
-        res_result = resa["season7Kills"]["displayValue"]
-    elif what == "s8w":
-        res_result = resa["season8Wins"]["displayValue"]
-    elif what == "s8k":
-        res_result = resa["season8Kills"]["displayValue"]
-    
-    else:
-        res_result = "そんなコマンドないんだよね"
-
-    
+ 
     if what in res_dict:
         res_result = res_dict[what]
+    else:
+        res_result = "そんなコマンドないけど？w"
     return res_result
 
 def loop(text):
