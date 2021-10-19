@@ -154,6 +154,10 @@ def Track(text):
         res_result = res["data"]["segments"][0]["stats"]["level"]["displayValue"]
     elif what == "damage":
         res_result = res["data"]["segments"][0]["stats"]["damage"]["displayValue"]
+    elif what == "arena":
+        res_result = res["data"]["segments"][0]["stats"]["arenaRankScore"]["metadata"]["rankName"]
+    elif what == "arenarank":
+        res_result = res["data"]["segments"][0]["stats"]["arenaRankScore"]["displayValue"]
     elif what == "kill":
         res_result = res["data"]["segments"][0]["stats"]["kills"]["displayValue"]
     elif what == "s5w":
@@ -172,8 +176,7 @@ def Track(text):
         res_result = res["data"]["segments"][0]["stats"]["season8Wins"]["displayValue"]
     elif what == "s8k":
         res_result = res["data"]["segments"][0]["stats"]["season8Kills"]["displayValue"]
-    elif what == "res":
-        res_result = res
+    
     else:
         res_result = "そんなコマンドないんだよね"
     return res_result
