@@ -110,6 +110,8 @@ def show_user():
     user_dict = json.dumps("json/user.json")
     for i in user_dict:
         a += f"{i} {user_dict[i]}\n"
+    
+    return a
 
 # trackする
 def Track(text):
