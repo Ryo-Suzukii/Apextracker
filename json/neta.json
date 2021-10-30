@@ -1,5 +1,4 @@
-{
-    "help":"! [platform(psn or origin or xbl)] [playerName] [コマンド] です．\nコマンドは現在[rank],[rankscore],[id],[level],[kill],[s[n]k or w]です",
+{"help":"! [platform(psn or origin or xbl)] [playerName] [コマンド] です．\nコマンドは現在[rank],[rankscore],[id],[level],[kill],[s[n]k or w]です",
     "fuck":"ごめんね by黒木ほの香",
     "ramen":"https://tabelog.com/tokyo/A1303/A130301/13069220/",
     "home":"https://nit-komaba.ed.jp/",
@@ -9,5 +8,4 @@
     "えなこ":"https://twitter.com/enako_cos",
     ":)":"なにわろてんねん",
     ":(":"元気出して",
-    "playlist":"https://www.youtube.com/playlist?list=PLSlDAq60dYFASz84xcS2sXwjf34maoIGR"
-}
+    "playlist":"https://www.youtube.com/playlist?list=PLSlDAq60dYFASz84xcS2sXwjf34maoIGR"}
