@@ -71,27 +71,33 @@ def callback():
 
     return 'OK'
 
-tweet_flag = False
 
 #メッセージ受け取ったとき
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
-    global tweet_flag
+    text =  event.message.text
+
     # コマンド開始位置を確認
-    if event.message.text[:1] == "!":
-        res_result = Track(event.message.text)
+    if text[:1] == "!":
+        res_result = Track(text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
-    elif event.message.text[:1] == "?":
-        res_result = Neta(event.message.text)
+    elif text[:1] == "?":
+        res_result = Neta(text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
-    elif event.message.text[:1] == "|":
-        res_result = loop(event.message.text)
+    elif text[:1] == "|":
+        res_result = loop(text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
-    elif event.message.text[:1] == "/":
-        res_result = get_tweet(event.message.text)
+    elif text[:1] == "/":
+        res_result = get_tweet(text)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
-    elif event.message.text[:1] == "r":
-        res_result = ran(event.message.text)
+    elif text[:1] == "r":
+        res_result = ran(text)
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
+    elif text[:1] == "+":
+        res_result = add_user(text)
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
+    elif text[:1] == "_":
+        res_result = show_user()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
 
 
@@ -99,19 +105,16 @@ def message_text(event):
     else:
         pass
 
+def show_user(text):
+    user_dict = json.dumps("json/user.json")
+    return user_dict
+
 # trackする
 def Track(text):
     # 受信したテキストを空白でリスト化
     text = text.split()
 
-    platform_dict = {
-        "p":"psn",
-        "o":"origin",
-        "psn":"psn",
-        "origin":"origin",
-        "x":"xbl",
-        "xbox":"xbl"
-    }
+    platform_dict = json.loads("json/pf.json")
     try:
         # プラットフォームのショートカット機能
         platform = text[1]
@@ -119,16 +122,7 @@ def Track(text):
 
         # ユーザーショートカットの実装
         user = text[2]
-        user_dict = {
-            "h":"hayaa6211",
-            "i":"ITia_AISIA",
-            "k":"kaijyuukun2001",
-            "a":"amazonesu_iwata",
-            "sh":"KNR_ShibuyaHal",
-            "e":"eerie0w0eery",
-            "m":"iMarshi FB",
-            "ku":"KurokiHonokaSuki"
-        }
+        user_dict = json.loads("json/user.json")
         if user in user_dict:
             user = user_dict[user]
 
@@ -160,6 +154,21 @@ def Track(text):
         res_result = "そんなコマンドないけど？w"
     return res_result
 
+def add_user(text):
+    text = text.split()
+    try:
+        username = text[1]
+        shortcut = text[2]
+    except:
+        return "ばか！！！！！！！！！"
+
+    user_dict = json.loads("json/user.json")
+    user_dict[shortcut] = username
+    with open("json/user.json","w") as f:
+        json.dump(user_dict,f,indent=4)
+    
+    return "ショートカットを追加しましたやったね"
+
 def loop(text):
     text = text.split()
     what = text[1]
@@ -177,19 +186,7 @@ def Neta(text):
     text = text.split()
     what = text[1]
 
-    neta_dict = {
-        "help":"! [platform(psn or origin or xbl)] [playerName] [コマンド] です．\nコマンドは現在[rank],[rankscore],[id],[level],[kill],[s[n]k or w]です",
-        "fuck":"ごめんね by黒木ほの香",
-        "ramen":"https://tabelog.com/tokyo/A1303/A130301/13069220/",
-        "home":"https://nit-komaba.ed.jp/",
-        "v":"v2.2.1b(release 2021/10/20)",
-        "黒木ほの香":"https://twitter.com/_kuroki_honoka",
-        "青木志貴":"https://twitter.com/eerieXeery",
-        "えなこ":"https://twitter.com/enako_cos",
-        ":)":"なにわろてんねん",
-        ":(":"元気出して",
-        "playlist":"https://www.youtube.com/playlist?list=PLSlDAq60dYFASz84xcS2sXwjf34maoIGR"
-    }
+    neta_dict = json.loads("json/neta.json")
     
     if what in neta_dict:
         res_result = neta_dict[what]
