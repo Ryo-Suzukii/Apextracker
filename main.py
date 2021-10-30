@@ -106,8 +106,10 @@ def message_text(event):
         pass
 
 def show_user():
+    a = ""
     user_dict = json.dumps("json/user.json")
-    return user_dict
+    for i in user_dict:
+        a += f"{i} {user_dict[i]}\n"
 
 # trackする
 def Track(text):
