@@ -105,7 +105,7 @@ def message_text(event):
     else:
         pass
 
-def show_user(text):
+def show_user():
     user_dict = json.dumps("json/user.json")
     return user_dict
 
