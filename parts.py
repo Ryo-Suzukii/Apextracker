@@ -24,6 +24,7 @@ api = tweepy.API(auth)
 
 TL = "https://api.twitter.com/1.1/statuses/user_timeline.json"
 #----------------------
+
 ERROR_MESSAGE = "An error occurred during program execution. Please ask the administrator for details."
 
 class Main:
@@ -150,3 +151,48 @@ class Main:
 
         except:
             return ERROR_MESSAGE+"/"+sys._getframe().f_code.co_name
+
+class to_dict:
+    def __init__(self):
+        pass
+
+    def add_user(self,sc,m):
+        try:
+            with open("json/user.json",mode="r") as f:
+                user_dict = json.load(f)
+            user_dict[sc] = m
+
+            with open("json/user.json",mode="w",encoding="utf-8") as f:
+                json.dump(user_dict,f,indent=4)
+        except:
+            return "user情報を辞書に追加できませんでした．時間をおいて再度実行してください．"
+        
+        return f"{sc}を{m}として辞書に追加しました．"
+
+    def del_dict(self,sc):
+        try:
+            with open("json/user.json",mode="r") as f:
+                user_dict = json.load(f)
+            
+            try:
+                del user_dict[sc]
+            except:
+                return f"辞書の中に{sc}はありません"
+            
+            with open("json/user.json",mode="w",encoding="utf-8") as f:
+                json.dump(user_dict,f,indent=4)
+        except:
+            return "user情報を削除できませんでした．時間をおいて再度実行してください．"
+    
+    def view_dict(self):
+        try:
+            with open("json/user.json",mode="r") as f:
+                user_dict = json.load(f)
+            a = ""
+            for n in user_dict:
+                a += f"{n}:{user_dict[n]}\n"
+
+        except:
+            return "なんでか知らんけど辞書の中身見れないや"
+        
+        return a

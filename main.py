@@ -76,8 +76,10 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
     main = parts.Main()
+    di = parts.to_dict()
+
     txt_list = event.message.text.split()
-    cmd_list = ["!","?","|","/","r"]
+    cmd_list = ["!","?","|","/","r","add","del","v"]
     if txt_list[0] in cmd_list:
         try:
             if txt_list[0] == "!":
@@ -90,6 +92,12 @@ def message_text(event):
                 res = main.get_tweet(txt_list[1],txt_list[2])
             elif txt_list[0] =="r":
                 res = main.random(txt_list[1],txt_list[2])
+            elif txt_list[0] == "add":
+                res = di.add_user(txt_list[1],txt_list[2])
+            elif txt_list[0] == "del":
+                res = di.del_dict(txt_list[1])
+            elif txt_list[0] == "v":
+                res = di.view_dict()
 
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res))
         except:
