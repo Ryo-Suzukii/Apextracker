@@ -1,6 +1,4 @@
 import os
-import sys
-from googletrans import Translator
 from random import randint
 import json
 import tweepy
