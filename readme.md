@@ -71,3 +71,16 @@ PCの場合Steamでプレイしていても検索の際はOriginのIdでの入�
 
 > r start end  
 >startからendまでの乱数
+
+### ユーザショートカットの追加，削除
+
+- "add"
+> add {ショートカット} {ID}  
+> add sh KNR_ShibuyaHal→"sh"として"KNR_ShibuyaHal"を登録
+
+- "del"
+> del {ショートカット}  
+>del sh → ショートカット"sh"を削除します
+
+- "v"
+>v → 今登録されている辞書の情報を一覧で表示します.
