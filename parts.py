@@ -37,10 +37,14 @@ class Main:
 
             with open("json/pf.json",mode="r") as f:
                 pf_dict = json.load(f)
-            self.pf = pf_dict[self.pf]
+            if self.pf in pf_dict:
+                self.pf = pf_dict[self.pf]
 
             with open("json/user.json",mode="r") as f:
                 usr_dict = json.load(f)
+            if self.usr in usr_dict:
+                self.usr = usr_dict[self.usr]
+            
 
             url = f"{url}/{self.pf}/{self.usr}"
 
@@ -135,14 +139,14 @@ class Main:
             return ERROR_MESSAGE+"/"+sys._getframe().f_code.co_name
     
     def random(self,start,end,mode=0):
-        self.start = start
-        self.end = end
+        self.start = int(start)
+        self.end = int(end)
         self.mode = mode
 
         try:
             ans = randint(start,end)
 
             return ans
-            
+
         except:
             return ERROR_MESSAGE+"/"+sys._getframe().f_code.co_name
