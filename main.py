@@ -71,28 +71,25 @@ def callback():
 
     return 'OK'
 
-tweet_flag = False
-
 #メッセージ受け取ったとき
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
-    global tweet_flag
-    # コマンド開始位置を確認
-    if event.message.text[:1] == "!":
-        res_result = Track(event.message.text)
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
-    elif event.message.text[:1] == "?":
-        res_result = Neta(event.message.text)
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
-    elif event.message.text[:1] == "|":
-        res_result = loop(event.message.text)
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
-    elif event.message.text[:1] == "/":
-        res_result = get_tweet(event.message.text)
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
-    elif event.message.text[:1] == "r":
-        res_result = ran(event.message.text)
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res_result))
+    txt_list = event.message.text.split()
+    cmd_list = ["!","?","|","/","r"]
+    if txt_list[0] in cmd_list:
+        if txt_list[0] == "!":
+            res = Track(txt_list)
+        elif txt_list[0] == "?":
+            res = Neta(txt_list)
+        elif txt_list[0] == "|":
+            res = loop(txt_list)
+        elif txt_list[0] == "/":
+            res = get_tweet(txt_list)
+        elif txt_list[0] == "r":
+            res = ran(txt_list)
+        
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res))
+        
 
 
     # それ以外(ただの会話とか)ならスルー
@@ -183,9 +180,6 @@ def Neta(text):
         "ramen":"https://tabelog.com/tokyo/A1303/A130301/13069220/",
         "home":"https://nit-komaba.ed.jp/",
         "v":"v2.2.1b(release 2021/10/20)",
-        "黒木ほの香":"https://twitter.com/_kuroki_honoka",
-        "青木志貴":"https://twitter.com/eerieXeery",
-        "えなこ":"https://twitter.com/enako_cos",
         ":)":"なにわろてんねん",
         ":(":"元気出して",
         "playlist":"https://www.youtube.com/playlist?list=PLSlDAq60dYFASz84xcS2sXwjf34maoIGR"

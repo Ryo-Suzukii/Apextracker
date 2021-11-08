@@ -8,3 +8,7 @@
 pyvenv.cfg
 .venv
 pip-selfcheck.json
+tmp.py
+test.py
+.vscode/
+__pycache__/
