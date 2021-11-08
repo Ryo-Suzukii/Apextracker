@@ -3,6 +3,7 @@ import sys
 import json
 import tweepy
 from random import randint
+from google.cloud import storage
 import requests
 from requests_oauthlib import OAuth1Session
 
@@ -23,6 +24,9 @@ sess = OAuth1Session(CK,CS,AT,AS)
 api = tweepy.API(auth)
 
 TL = "https://api.twitter.com/1.1/statuses/user_timeline.json"
+
+client = storage.Client.from_service_account_json('json/melodic-keyword-331511-983ce222273e.json')
+bucket = client.bucket("apextracker")
 #----------------------
 
 ERROR_MESSAGE = "An error occurred during program execution. Please ask the administrator for details."
@@ -30,19 +34,19 @@ ERROR_MESSAGE = "An error occurred during program execution. Please ask the admi
 class Main:
     
     def track(self,pf,usr,cmd):
+
         try:
             self.pf = pf
             self.usr = usr
             self.cmd = cmd
             url = "https://public-api.tracker.gg/v2/apex/standard/profile"
 
-            with open("json/pf.json",mode="r") as f:
-                pf_dict = json.load(f)
+            pf_dict = json.loads(bucket.get_blob("pf.json").download_as_string())
+
             if self.pf in pf_dict:
                 self.pf = pf_dict[self.pf]
 
-            with open("json/user.json",mode="r") as f:
-                usr_dict = json.load(f)
+            usr_dict = json.loads(bucket.get_blob("user.json").download_as_string())
             if self.usr in usr_dict:
                 self.usr = usr_dict[self.usr]
             
@@ -88,8 +92,7 @@ class Main:
     
     def neta(self,txt):
         try:
-            with open("json/neta.json",mode="r",encoding="utf-8") as f:
-                neta_dict = json.load(f)
+            neta_dict = json.loads(bucket.get_blob("neta.json").download_as_string())
             
             if txt in neta_dict:
                 res = neta_dict[txt]
@@ -109,8 +112,7 @@ class Main:
             if self.count > 10:
                 self.count = 10
             
-            with open("json/user.json",mode="r") as f:
-                user_dict = json.load(f)
+            user_dict = json.loads(bucket.get_blob("user.json").download_as_string())
             
             if self.user in user_dict:
                 self.user = user_dict[self.user]
@@ -158,12 +160,13 @@ class to_dict:
 
     def add_user(self,sc,m):
         try:
-            with open("json/user.json",mode="r") as f:
-                user_dict = json.load(f)
+            user_dict = json.loads(bucket.get_blob("user.json").download_as_string())
             user_dict[sc] = m
 
             with open("json/user.json",mode="w",encoding="utf-8") as f:
                 json.dump(user_dict,f,indent=4)
+            bucket.blob("user.json").upload_from_filename(filename="json/user.json")
+            
         except:
             return "user情報を辞書に追加できませんでした．時間をおいて再度実行してください．"
         
@@ -171,8 +174,7 @@ class to_dict:
 
     def del_dict(self,sc):
         try:
-            with open("json/user.json",mode="r") as f:
-                user_dict = json.load(f)
+            user_dict = json.loads(bucket.get_blob("user.json").download_as_string())
             
             try:
                 del user_dict[sc]
@@ -181,14 +183,15 @@ class to_dict:
             
             with open("json/user.json",mode="w",encoding="utf-8") as f:
                 json.dump(user_dict,f,indent=4)
+
+            bucket.blob("user.json").upload_from_filename(filename="json/user.json")
         except:
             return "user情報を削除できませんでした．時間をおいて再度実行してください．"
         return f"{sc}を辞書から削除しました."
     
     def view_dict(self):
         try:
-            with open("json/user.json",mode="r") as f:
-                user_dict = json.load(f)
+            user_dict = json.loads(bucket.get_blob("user.json").download_as_string())
             a = ""
             for n in user_dict:
                 a += f"{n}:{user_dict[n]}\n"
