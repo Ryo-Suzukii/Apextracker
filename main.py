@@ -1,4 +1,5 @@
 import os
+import sys``
 from random import randint
 import json
 import tweepy
@@ -17,6 +18,8 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
+
+import parts
 
 app = Flask(__name__)
 
@@ -72,189 +75,29 @@ def callback():
 #メッセージ受け取ったとき
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
+    main = parts.Main()
     txt_list = event.message.text.split()
     cmd_list = ["!","?","|","/","r"]
     if txt_list[0] in cmd_list:
-        if txt_list[0] == "!":
-            res = Track(txt_list)
-        elif txt_list[0] == "?":
-            res = Neta(txt_list)
-        elif txt_list[0] == "|":
-            res = loop(txt_list)
-        elif txt_list[0] == "/":
-            res = get_tweet(txt_list)
-        elif txt_list[0] == "r":
-            res = ran(txt_list)
-        
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res))
-        
+        try:
+            if txt_list[0] == "!":
+                res = main.track(txt_list[1],txt_list[2],txt_list[3])
+            elif txt_list[0] == "?":
+                res = main.neta(txt_list[1])
+            elif txt_list[0] == "|":
+                res = main.loop(txt_list[1],txt_list[2])
+            elif txt_list[0] == "/":
+                res = main.get_tweet(txt_list[1],txt_list[2])
+            elif txt_list[0] =="r":
+                res = main.random(txt_list[1],txt_list[2])
 
-
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res))
+        except:
+            return f"An error occurred during program execution. Please ask the administrator for details. {sys._getframe().f_code.co_name}"
+        
     # それ以外(ただの会話とか)ならスルー
     else:
         pass
-
-# trackする
-def Track(text):
-    # 受信したテキストを空白でリスト化
-    text = text.split()
-
-    platform_dict = {
-        "p":"psn",
-        "o":"origin",
-        "psn":"psn",
-        "origin":"origin",
-        "x":"xbl",
-        "xbox":"xbl"
-    }
-    try:
-        # プラットフォームのショートカット機能
-        platform = text[1]
-        platform = platform_dict[platform]
-
-        # ユーザーショートカットの実装
-        user = text[2]
-        user_dict = {
-            "h":"hayaa6211",
-            "i":"ITia_AISIA",
-            "k":"kaijyuukun2001",
-            "a":"amazonesu_iwata",
-            "sh":"KNR_ShibuyaHal",
-            "e":"eerie0w0eery",
-            "m":"iMarshi FB",
-            "ku":"KurokiHonokaSuki"
-        }
-        if user in user_dict:
-            user = user_dict[user]
-
-        # コマンド内容
-        what = text[3]
-    except:
-        return "そのコマンドおかしいで(platform)"
-
-    # ユーザーごとのurlを作成して検索
-    user_url = f"{url}/{platform}/{user}"
-    #jsonで検索結果まとめる
-    res = requests.get(user_url, headers=head).json()
-    resa = res["data"]["segments"][0]["stats"]
-    # コマンドごとにdictから検索
-
-    res_dict = {
-        "rank":resa["rankScore"]["metadata"]["rankName"],
-        "rankscore":resa["rankScore"]["displayValue"],
-        "id":res["data"]["platformInfo"]["platformUserId"],
-        "level":resa["level"]["displayValue"],
-        "arena":resa["arenaRankScore"]["metadata"]["rankName"],
-        "arenarank":resa["arenaRankScore"]["displayValue"],
-        "kill":resa["kills"]["displayValue"]
-    }
- 
-    if what in res_dict:
-        res_result = res_dict[what]
-    else:
-        res_result = "そんなコマンドないけど？w"
-    return res_result
-
-def loop(text):
-    text = text.split()
-    what = text[1]
-    try:
-        leng = int(text[2])
-        wtf = what*leng
-        if len(wtf) > 500:
-            wtf = wtf[:500]
-    except:
-        wtf = "ばかは宿題やって寝ろ"
-    
-    return wtf
- 
-def Neta(text):
-    text = text.split()
-    what = text[1]
-
-    neta_dict = {
-        "help":"! [platform(psn or origin or xbl)] [playerName] [コマンド] です．\nコマンドは現在[rank],[rankscore],[id],[level],[kill],[s[n]k or w]です",
-        "fuck":"ごめんね by黒木ほの香",
-        "ramen":"https://tabelog.com/tokyo/A1303/A130301/13069220/",
-        "home":"https://nit-komaba.ed.jp/",
-        "v":"v2.2.1b(release 2021/10/20)",
-        ":)":"なにわろてんねん",
-        ":(":"元気出して",
-        "playlist":"https://www.youtube.com/playlist?list=PLSlDAq60dYFASz84xcS2sXwjf34maoIGR"
-    }
-    
-    if what in neta_dict:
-        res_result = neta_dict[what]
-    else:
-        res_result = "そんなコマンドないってw"
-    return res_result
-
-def get_tweet(text):
-    tweet = ""
-    text = text.split()
-    userID = text[1]
-    try:
-        count = int(text[2])
-    except:
-        count = 1
-
-    if count > 10:
-        count = 10
-        
-    user_dict = {
-            "h":"hayaa6211",
-            "i":"ITia_AISIA",
-            "k":"kaijyuukun2001",
-            "a":"amazonesu_iwata",
-            "sh":"KNR_ShibuyaHal",
-            "e":"eerie0w0eery",
-            "m":"iMarshi FB",
-            "kh":"_kuroki_Honoka",
-        }
-
-    if userID in user_dict:
-        userID = user_dict[userID]
-    else:
-        pass
-
-    param = {
-        "screen_name":userID,
-        "count":count,
-        "include_entities" : True,
-        "exclude_replies" : True,
-        "include_rts" : True
-    }
-    try:
-        req = sess.get(TL, params=param)
-        timeline = json.loads(req.text)
-        t = "-"*20
-        for twee in reversed(timeline):
-            tweet += twee["text"] + "\n" + t + "\n"
-        tt = f"{userID}さんの最新ツイート{count}件です\n{t}\n{tweet}"
-    except:
-        tt = f"{userID}は見つかりませんでした．"
-    return tt
-
-def ran(text):
-    try:
-        text = text.split()
-        try:
-            n = int(text[1])
-        except:
-            n = 1
-        try:
-            m = int(text[2])
-        except:
-            n = 1
-            m = int(text[1])
-    except:
-        ans = "引数を指定しやがれください"
-    try:
-        count = int(text[1])
-        ans = randint(n,m)
-    except:
-        ans = "数字を指定しやがれください"
-    return ans
 
 
 #変えるな
