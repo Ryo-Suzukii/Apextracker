@@ -183,6 +183,7 @@ class to_dict:
                 json.dump(user_dict,f,indent=4)
         except:
             return "user情報を削除できませんでした．時間をおいて再度実行してください．"
+        return f"{sc}を辞書から削除しました."
     
     def view_dict(self):
         try:
