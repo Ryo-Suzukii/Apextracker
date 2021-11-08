@@ -93,7 +93,7 @@ def message_text(event):
 
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=res))
         except:
-            return f"An error occurred during program execution. Please ask the administrator for details. {sys._getframe().f_code.co_name}"
+            return f"An error occurred during program execution. Please ask the administrator for details."+"/"+sys._getframe().f_code.co_name
         
     # それ以外(ただの会話とか)ならスルー
     else:
