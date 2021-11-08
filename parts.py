@@ -66,7 +66,7 @@ class Main:
             else:
                 res_result = "コマンドが存在しないよばか"
             
-            return res_result
+            return f"{self.usr}さんの{self.cmd}は{res_result}です"
         except:
             return ERROR_MESSAGE
     
