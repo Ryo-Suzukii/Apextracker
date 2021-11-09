@@ -190,6 +190,20 @@ class to_dict:
             return str(type(es))
         return f"{sc}を辞書から削除しました."
     
+    def add_twitter(self,sc,m):
+        try:
+            user_dict = json.loads(bucket.get_blob("twitter.json").download_as_string())
+            user_dict[sc] = m
+
+            with open("json/twitter.json",mode="w",encoding="utf-8") as f:
+                json.dump(user_dict,f,indent=4)
+            bucket.blob("twitter.json").upload_from_filename(filename="json/twitter.json")
+            
+        except:
+            return "user情報を辞書に追加できませんでした．時間をおいて再度実行してください．"
+        
+        return f"{sc}を{m}として辞書に追加しました．"
+    
     def view_dict(self):
         try:
             user_dict = json.loads(bucket.get_blob("user.json").download_as_string())
