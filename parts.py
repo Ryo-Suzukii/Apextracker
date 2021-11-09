@@ -81,8 +81,9 @@ class Main:
             self.length = int(length)
 
             try:
-                res = txt*length
+                res = self.txt*self.length
                 res = res[:200]
+
             except Exception as es:
                 res = str(type(es))
             
