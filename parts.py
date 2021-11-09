@@ -83,8 +83,8 @@ class Main:
             try:
                 res = txt*length
                 res = res[:200]
-            except:
-                res = "バカは宿題やって寝ろ"
+            except Exception as es:
+                res = str(type(es))
             
             return res
         except Exception as es:
