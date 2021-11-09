@@ -8,15 +8,15 @@ import requests
 from requests_oauthlib import OAuth1Session
 
 #-----API KEY-----------
-Tracker_api = "94a1b88a-7bdb-43cb-a3d6-b633a0aa8f47"
-Twitter_access_token = "877115268631113729-ZQieIvXNgMG9pqkUb1rRkBoJ7lVXZvm"
-Twitter_access_secret = "HT0HGwnKrhHSyPGDcK8E0duqxukjnMIX0DKYZqWAPZmFZ"
-Twitter_API_key = "Lv5GImN3GnuIjD9sijvdMMCrv"
-Twitter_API_secret = "j1Ug6CYaU29hsFMT5OgTNiBlACxmHXZETjFQQ4J9Xrbl87PG1o"
-AT = "877115268631113729-ZQieIvXNgMG9pqkUb1rRkBoJ7lVXZvm"
-AS = "HT0HGwnKrhHSyPGDcK8E0duqxukjnMIX0DKYZqWAPZmFZ"
-CS = "j1Ug6CYaU29hsFMT5OgTNiBlACxmHXZETjFQQ4J9Xrbl87PG1o"
-CK = "Lv5GImN3GnuIjD9sijvdMMCrv"
+Tracker_api = os.getenv('Tracker_API',None)
+Twitter_access_token = os.getenv("TWITTER_ACCESS_TOKEN", None)
+Twitter_access_secret = os.getenv("TWITTER_ACCESS_SECRET", None)
+Twitter_API_key = os.getenv("TWITTER_API_KEY", None)
+Twitter_API_secret = os.getenv("TWITTER_API_SECRET", None)
+AT = os.getenv("AT")
+AS = os.getenv("AS")
+CS = os.getenv("CS")
+CK = os.getenv("CK")
 
 auth = tweepy.OAuthHandler(Twitter_API_key, Twitter_API_secret)
 auth.set_access_token(Twitter_access_token, Twitter_access_secret)
