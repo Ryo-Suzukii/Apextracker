@@ -72,8 +72,8 @@ class Main:
                 res_result = "コマンドが存在しないよばか"
             
             return f"{self.usr}さんの{self.cmd}は{res_result}です"
-        except:
-            return ERROR_MESSAGE
+        except Exception as es:
+            return str(type(es))
     
     def loop(self,txt,length):
         try:
@@ -87,8 +87,8 @@ class Main:
                 res = "バカは宿題やって寝ろ"
             
             return res
-        except:
-            return ERROR_MESSAGE+"/"+sys._getframe().f_code.co_name
+        except Exception as es:
+            return str(type(es))
     
     def neta(self,txt):
         try:
@@ -100,8 +100,8 @@ class Main:
                 res = "そんなコマンドないが?w"
             
             return res
-        except:
-            return ERROR_MESSAGE+"/"+sys._getframe().f_code.co_name
+        except Exception as es:
+            return str(type(es))
     
     def get_tweet(self,user,count):
         tweet = ""
@@ -138,8 +138,8 @@ class Main:
                 tt = f"{self.user}は見つかりませんでした．"
 
             return tt
-        except:
-            return ERROR_MESSAGE+"/"+sys._getframe().f_code.co_name
+        except Exception as es:
+            return str(type(es))
     
     def random(self,start,end,mode=0):
         self.start = int(start)
@@ -151,8 +151,8 @@ class Main:
 
             return ans
 
-        except:
-            return ERROR_MESSAGE+"/"+sys._getframe().f_code.co_name
+        except Exception as es:
+            return str(type(es))
 
 class to_dict:
     def __init__(self):
@@ -185,8 +185,8 @@ class to_dict:
                 json.dump(user_dict,f,indent=4)
 
             bucket.blob("user.json").upload_from_filename(filename="json/user.json")
-        except:
-            return "user情報を削除できませんでした．時間をおいて再度実行してください．"
+        except Exception as es:
+            return str(type(es))
         return f"{sc}を辞書から削除しました."
     
     def view_dict(self):
