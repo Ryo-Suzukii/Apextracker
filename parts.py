@@ -108,7 +108,7 @@ class Main:
         tweet = ""
         try:
             self.user = user
-            self.count = count
+            self.count = int(count)
 
             if self.count > 10:
                 self.count = 10
