@@ -24,34 +24,12 @@ import parts
 app = Flask(__name__)
 
 # LINEのAPIキーを環境変数からもってくる
-Tracker_api = os.getenv('Tracker_API',None)
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
-
-# TwitterのAPI
-Twitter_access_token = os.getenv("TWITTER_ACCESS_TOKEN", None)
-Twitter_access_secret = os.getenv("TWITTER_ACCESS_SECRET", None)
-Twitter_API_key = os.getenv("TWITTER_API_KEY", None)
-Twitter_API_secret = os.getenv("TWITTER_API_SECRET", None)
-AT = os.getenv("AT")
-AS = os.getenv("AS")
-CS = os.getenv("CS")
-CK = os.getenv("CK")
-
-# TwitterAPIの初期設定
-auth = tweepy.OAuthHandler(Twitter_API_key, Twitter_API_secret)
-auth.set_access_token(Twitter_access_token, Twitter_access_secret)
-sess = OAuth1Session(CK,CS,AT,AS)
-
-TL = "https://api.twitter.com/1.1/statuses/user_timeline.json"
-
-api = tweepy.API(auth)
-
 
 url = "https://public-api.tracker.gg/v2/apex/standard/profile"
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
-head = {"TRN-Api-Key":Tracker_api}
 
 
 @app.route("/callback", methods=['POST'])
