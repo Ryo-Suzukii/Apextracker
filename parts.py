@@ -111,8 +111,8 @@ class Main:
 
             if self.count > 10:
                 self.count = 10
-            
-            user_dict = json.loads(bucket.get_blob("user.json").download_as_string())
+
+            user_dict = json.loads(bucket.get_blob("twitter.json").download_as_string())
             
             if self.user in user_dict:
                 self.user = user_dict[self.user]
