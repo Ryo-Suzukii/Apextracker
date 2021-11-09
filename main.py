@@ -72,7 +72,7 @@ def message_text(event):
                 res = main.random(txt_list[1],txt_list[2])
             elif txt_list[0] == "add":
                 res = di.add_user(txt_list[1],txt_list[2])
-            elif txt_list[0] == "addt":
+            elif txt_list[0] == "tw":
                 res = di.add_twitter(txt_list[1],txt_list[2])
             elif txt_list[0] == "del":
                 res = di.del_dict(txt_list[1])
